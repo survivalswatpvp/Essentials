@@ -21,7 +21,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 // This command has 4 undocumented behaviours #EasterEgg
-public class Commandessentials extends EssentialsCommand
+public class Commandessentials extends CraZyNetworkCommand
 {
 	public Commandessentials()
 	{
