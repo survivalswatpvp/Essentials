@@ -86,7 +86,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.yaml.snakeyaml.error.YAMLException;
 
 
-public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials
+public class CraZyNetwork extends JavaPlugin implements net.ess3.api.IEssentials
 {
 	public static final int BUKKIT_VERSION = 3050;
 	private static final Logger LOGGER = Logger.getLogger("Essentials");
@@ -109,13 +109,13 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials
 	private final transient List<String> vanishedPlayers = new ArrayList<String>();
 	private transient Method oldGetOnlinePlayers;
 
-	public Essentials()
+	public CraZyNetwork()
 	{
 	}
 
-	public Essentials(final Server server)
+	public CraZyNetwork(final Server server)
 	{
-		super(new JavaPluginLoader(server), new PluginDescriptionFile("Essentials", "", "com.earth2me.essentials.Essentials"), null, null);
+		super(new JavaPluginLoader(server), new PluginDescriptionFile("CraZyNetwork", "", "com.earth2me.essentials.Essentials"), null, null);
 	}
 
 	@Override
@@ -292,14 +292,14 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials
 			LOGGER.log(Level.INFO, "Registering Listeners");
 		}
 
-		final EssentialsPluginListener serverListener = new EssentialsPluginListener(this);
+		final CraZyNetworkPluginListener serverListener = new CraZyNetworkPluginListener(this);
 		pm.registerEvents(serverListener, this);
 		confList.add(serverListener);
 
-		final EssentialsPlayerListener playerListener = new EssentialsPlayerListener(this);
+		final CraZyNetworkPlayerListener playerListener = new CraZyNetworkListener(this);
 		pm.registerEvents(playerListener, this);
 
-		final EssentialsBlockListener blockListener = new EssentialsBlockListener(this);
+		final CraZyNetworkBlockListener blockListener = new CraZyNetworkBlockListener(this);
 		pm.registerEvents(blockListener, this);
 
 		final SignBlockListener signBlockListener = new SignBlockListener(this);
@@ -311,10 +311,10 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials
 		final SignEntityListener signEntityListener = new SignEntityListener(this);
 		pm.registerEvents(signEntityListener, this);
 
-		final EssentialsEntityListener entityListener = new EssentialsEntityListener(this);
+		final CraZyNetworkEntityListener entityListener = new CraZyNetworkEntityListener(this);
 		pm.registerEvents(entityListener, this);
 
-		final EssentialsWorldListener worldListener = new EssentialsWorldListener(this);
+		final CraZyNetworkWorldListener worldListener = new CraZyNetworkWorldListener(this);
 		pm.registerEvents(worldListener, this);
 
 		pm.registerEvents(tntListener, this);
@@ -403,7 +403,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials
 	}
 
 	@Override
-	public boolean onCommandEssentials(final CommandSender cSender, final Command command, final String commandLabel, final String[] args, final ClassLoader classLoader, final String commandPath, final String permissionPrefix, final IEssentialsModule module)
+	public boolean onCommandCraZyNetwork(final CommandSender cSender, final Command command, final String commandLabel, final String[] args, final ClassLoader classLoader, final String commandPath, final String permissionPrefix, final IEssentialsModule module)
 	{
 		// Allow plugins to override the command via onCommand
 		if (!getSettings().isCommandOverridden(command.getName()) && (!commandLabel.startsWith("e") || commandLabel.equalsIgnoreCase(command.getName())))
@@ -444,14 +444,14 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials
 			{
 				Bukkit.getLogger().log(Level.INFO, "CommandBlock at {0},{1},{2} issued server command: /{3} {4}", new Object[]
 				{
-					bSenderBlock.getX(), bSenderBlock.getY(), bSenderBlock.getZ(), commandLabel, EssentialsCommand.getFinalArg(args, 0)
+					bSenderBlock.getX(), bSenderBlock.getY(), bSenderBlock.getZ(), commandLabel, CraZyNetworkCommand.getFinalArg(args, 0)
 				});
 			}
 			else if (user == null)
 			{
 				Bukkit.getLogger().log(Level.INFO, "{0} issued server command: /{1} {2}", new Object[]
 				{
-					cSender.getName(), commandLabel, EssentialsCommand.getFinalArg(args, 0)
+					cSender.getName(), commandLabel, CraZyNetworkCommand.getFinalArg(args, 0)
 				});
 			}
 
@@ -470,7 +470,7 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials
 			//Print version even if admin command is not available #easteregg
 			if (commandLabel.equalsIgnoreCase("essversion"))
 			{
-				sender.sendMessage("This server is running Essentials " + getDescription().getVersion());
+				sender.sendMessage("This server is running CraZyNetwork-SurvivalCore " + getDescription().getVersion());
 				return true;
 			}
 
@@ -483,9 +483,9 @@ public class Essentials extends JavaPlugin implements net.ess3.api.IEssentials
 			IEssentialsCommand cmd;
 			try
 			{
-				cmd = (IEssentialsCommand)classLoader.loadClass(commandPath + command.getName()).newInstance();
-				cmd.setEssentials(this);
-				cmd.setEssentialsModule(module);
+				cmd = (ICraZyNetworkCommand)classLoader.loadClass(commandPath + command.getName()).newInstance();
+				cmd.setCraZyNetwork(this);
+				cmd.setCraZyNetworkModule(module);
 			}
 			catch (Exception ex)
 			{
